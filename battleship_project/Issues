@@ -1,0 +1,6 @@
+There are a few issues with this game.
+
+When you make a move over a place that you have already gone
+it changes the hit H to a miss X. It should probably just prevent you from making that mistake
+
+When you hit outside of your 
