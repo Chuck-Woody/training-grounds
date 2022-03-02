@@ -35,9 +35,9 @@ attr_reader :size
 
     def attack(pos_arr)
 
-       if self[pos_arr] == :S
+        if self[pos_arr] == :S
             self[pos_arr] = :H
-            print "you sunk my battleship!"  
+            p 'you sunk my battleship!'  
             return true
        else
             self[pos_arr] = :X
@@ -48,23 +48,28 @@ attr_reader :size
     def place_random_ships
 
         #set 25% of the elements in grid to :S
+     
         num_ship_elements = @size / 4
-        # puts "My method shows there should be"
-        # puts num_ship_elements 
-        # puts "ships!"
+        
+       
         placed_ships = 0
         i = 0 
         while num_ship_elements > placed_ships
-
+            # puts "top of while loop!"
             if i == @grid.length # if we ever get unlucky enough to not assign enough ships in a given pass
                 i = 0
             end
             j = 0 
             while j < @grid[0].length
-                arr = [i,j]
+               
 
-                if  @grid[i][j] != :S && rand(0...10) >= 2
+                if  @grid[i][j] != :S && rand(0...10) >= 3 && placed_ships < num_ship_elements
                     @grid[i][j] = :S
+                    # puts "----------------------------------------" + "on: " + i.to_s + "  " + "  "  + j.to_s
+                    # print @grid
+                    # puts "----------------------------------------" + "num ships placed is: " + placed_ships.to_s
+                    # puts "ships required: " + num_ship_elements.to_s
+
                     placed_ships += 1
                     # print self.num_ships
                 end
@@ -75,4 +80,44 @@ attr_reader :size
         end
 
     end
+
+    def hidden_ships_grid
+        hidden_grid = Array.new(@grid.length) {Array.new(@grid.length)}
+
+        hidden_grid = @grid.map do |arr|
+
+            arr.map do |ele| 
+                if ele == :S
+                    :N
+                else
+                    ele
+                end
+            end
+        end
+        hidden_grid
+    end
+
+    def self.print_grid(arr)
+        
+        arr.each do |array|
+            line_string = " "
+            array.each do |ele|
+
+                line_string += ele.to_s + " "
+
+            end
+            print line_string.strip
+            print "\n"
+        end
+    end
+
+    def cheat
+
+        Board.print_grid( @grid)
+    end
+
+    def print
+       Board.print_grid( hidden_ships_grid)
+    end
+
 end
